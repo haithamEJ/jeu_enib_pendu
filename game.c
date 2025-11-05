@@ -11,12 +11,26 @@ void lowerS(char *m){
     }
 }
 
-char maj_mot_devine(char *s , char *g){
-    
+
+void hash(char *g , char *s){
+    for (int i = 0 ; s[i] != '\0' ; i++) {
+        g[i] = '-';   
+    }
 }
+
 
 void lowerC(char *c) {
     *c = tolower(*c);
+}
+
+int indexx(char *m , char c){
+    for (int i = 0 ; m[i] != '\0' ; i++){
+        if(m[i] == c){
+            return i;
+        }
+    }
+
+    return 0;
 }
 
 bool verifier_tentative(char *m , char c){
@@ -29,26 +43,26 @@ bool verifier_tentative(char *m , char c){
     return false;
 
 }
-int main(){
 
-int tentative;
-char mot_secret[sizeTable] , guess;
+char *maj_mot_devine(char *s , char *g){
+    for(int i = 0 ; s[i] != '\0' ; i++){
+        if(verifier_tentative(s,g[i])){
+            g[i] = s[i];
+        }else{
+            g[i] = '&';
+        }
+    }
 
-printf("Joueur 1 , insere nombres de tentative : \n");
-scanf("%d",&tentative);
+    return g;
+}
 
-printf("Joueur 1 , insere le mot secret : \n");
-scanf("%s",mot_secret);
+int main(int argv , char** argc){
+
+int tentative = atoi(argc[1]);
+char *mot_secret[sizeTable] = argc[2] , guess , mot_devine[sizeTable];
+
 lowerS(mot_secret);
-
-printf("Joueur 2 , insere le caractere : \n");
-scanf(" %c",&guess);
-lowerC(&guess);
-
-if(verifier_tentative(mot_secret,guess)){
-    printf("Exists");
-}else{ printf("Nope");
-};
+hash(mot_devine,mot_secret);
 
 return 0;
 }
